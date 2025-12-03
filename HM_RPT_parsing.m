@@ -1,0 +1,79 @@
+clc, clear, close all
+
+folder_path = 'G:\공유 드라이브\BSL_Data4\HNE_agedcell_2025\RPT\RPT_raw_data';
+save_folder_path = "C:\Users\junny\OneDrive\문서\GitHub\Parsing\RPT_parsed_data";
+
+folder = dir(folder_path);
+folder = folder(3:end);
+
+N = length(folder);
+
+for i = 1:N 
+    % 초기화 필수
+    intrim      = struct();
+    parsed_data = struct();
+
+    % file now assign
+    file_name_now = folder(i).name;
+    file_path_now = fullfile(folder_path, file_name_now);
+
+    % data now load
+    data_now = readtable(file_path_now,"VariableNamingRule","preserve");
+
+    % data now assign
+    voltage_now = data_now.("Voltage(V)");
+    current_now = data_now.("Current(A)");
+    time_now = seconds(data_now.("Total Time"));
+    step_time_now = seconds(data_now.("Time"));
+    index_now = data_now.("DataPoint");
+    cycle_index_now = data_now.("Cycle Index");  
+    %SOC_DOD_now = data_now.("SOC/DOD(%)");
+
+    intrim.voltage = voltage_now;
+    intrim.current = current_now;
+    intrim.time = time_now;
+    intrim.step_time = step_time_now;
+    intrim.index = index_now;
+    intrim.cycle_index = cycle_index_now;
+    %intrim.soc_dod = SOC_DOD_now;
+
+    %% parsing
+    % step assign
+    disp('Start parsing process')
+    step_no = 1; % first step no
+    intrim.type = char(zeros(size(current_now)));
+
+    intrim.type(intrim.current == 0) = 'R';
+    intrim.type(intrim.current < 0) = 'D';
+    intrim.type(intrim.current > 0) = 'C';
+
+    intrim.step(1) = 1;
+    for n = 2:length(current_now)
+
+        if intrim.type(n) == intrim.type(n-1)
+           intrim.step(n) = step_no;
+        else
+           step_no = step_no + 1;
+           intrim.step(n) = step_no;
+        end
+
+    end 
+
+    step_vec = unique(intrim.step);
+    for j = 1:length(step_vec)
+        parsed_data(j).voltage = intrim.voltage(intrim.step == j);
+        parsed_data(j).current = intrim.current(intrim.step == j);
+        parsed_data(j).time = intrim.time(intrim.step == j);
+        parsed_data(j).step_time = intrim.step_time(intrim.step == j);
+        parsed_data(j).index = intrim.index(intrim.step == j);
+        parsed_data(j).cycle_index = intrim.cycle_index(intrim.step == j);
+        %parsed_data(j).soc_dod = intrim.soc_dod(intrim.step == j);
+
+        parsed_data(j).type = intrim.type(intrim.step == j);
+        parsed_data(j).step = intrim.step(intrim.step == j);
+           
+        parsed_data(j).type = parsed_data(j).type(1);
+        parsed_data(j).step = parsed_data(j).step(1);
+    end 
+    save(fullfile(save_folder_path,erase(file_name_now,'.txt')),'parsed_data','intrim');
+end

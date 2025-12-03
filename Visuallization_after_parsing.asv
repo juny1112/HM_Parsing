@@ -1,0 +1,124 @@
+% clc, clear, close all;
+% 
+% load("C:\Users\junny\OneDrive\문서\GitHub\Parsing\parsed_data\HNE_RPT_10degC_1C_50cyc_1_2.mat");
+% 
+% % plot
+% figure
+% yyaxis left
+% plot(intrim.time, intrim.current, 'b-','LineWidth',1); hold on
+% ylabel('Current[A]')
+% 
+% yyaxis right
+% plot(intrim.time, intrim.voltage, 'r-','LineWidth',1); hold off
+% 
+% title('RPT')
+% xlabel('Time[s]')
+% ylabel('Voltage[V]')
+% 
+% box on;
+% grid on;
+% 
+% %set(gca,'FontUnits','points','FontSize',13,'FontWeight','bold','PlotBoxAspectRatio',[1 1 1])
+% set(gcf,'Position',[300 300 1200 800])
+
+%% -----------------------------------------------------------------------------------------------------
+% clc; clear; close all;
+% 
+% % data_folder = "C:\Users\junny\OneDrive\문서\GitHub\Parsing\parsed_data";
+% % data_folder = 'G:\공유 드라이브\BSL_Data4\HNE_agedcell_2025_processed\Driving_parsed';
+% data_folder = 'G:\공유 드라이브\BSL_Data4\HNE_SOC_moving_cutoff_5_processed\Driving_parsed';
+% fig_folder  = "C:\Users\junny\OneDrive\문서\GitHub\Parsing\fig_RPT_mat";
+% 
+% 
+% if ~exist(fig_folder, 'dir')
+%     mkdir(fig_folder);
+% end
+% 
+% files = dir(fullfile(data_folder, '*.mat'));
+% N     = numel(files);
+% 
+% for k = 1:N
+%     % -------------------------------
+%     load(fullfile(files(k).folder, files(k).name), 'intrim');
+% 
+%     % plot
+%     fig = figure('Visible', 'on');   % 배치 처리용. 확인하려면 'on'으로 변경
+%     yyaxis left
+%     plot(intrim.time, intrim.current, 'b-','LineWidth',1); hold on
+%     ylabel('Current[A]')
+% 
+%     yyaxis right
+%     plot(intrim.time, intrim.voltage, 'r-','LineWidth',1); hold off
+% 
+%     title(strrep(files(k).name, '_', '\_'), 'Interpreter', 'tex')  % 파일명을 제목에
+%     xlabel('Time[s]')
+%     ylabel('Voltage[V]')
+% 
+%     box on; grid on;
+%     set(gcf,'Position',[300 300 1200 800])
+% 
+%     % ----- 저장 -----
+%     [~, base, ~] = fileparts(files(k).name);
+%     fig_name = fullfile(fig_folder, base + ".fig");
+%     savefig(fig, fig_name);
+%     close(fig);
+% 
+%     fprintf("%d/%d 저장 완료: %s\n", k, N, fig_name);
+% end
+% 
+% fprintf('전체 완료!\n');
+
+%% -------------------------------------------------------------------------------
+
+clc; clear; close all;
+
+% data_folder = "C:\Users\junny\OneDrive\문서\GitHub\Parsing\parsed_data";
+% data_folder = 'G:\공유 드라이브\BSL_Data4\HNE_agedcell_2025_processed\Driving_parsed';
+data_folder = 'G:\공유 드라이브\BSL_Data4\HNE_SOC_moving_cutoff_5_processed\Driving_parsed';
+fig_folder  = "C:\Users\junny\OneDrive\문서\GitHub\Parsing\fig_RPT_mat";
+
+
+if ~exist(fig_folder, 'dir')
+    mkdir(fig_folder);
+end
+
+files = dir(fullfile(data_folder, '*.mat'));
+N     = numel(files);
+
+for k = 1:N
+    % -------------------------------
+    load(fullfile(files(k).folder, files(k).name), 'intrim');
+
+    % plot
+    fig = figure('Visible', 'on');   % 배치 처리용. 확인하려면 'on'으로 변경
+    yyaxis left
+    plot(intrim.time, intrim.current, 'b-','LineWidth',1); hold on
+    ylabel('Current[A]')
+
+    yyaxis right
+    plot(intrim.time, intrim.voltage, 'r-','LineWidth',1); hold off
+
+    title(strrep(files(k).name, '_', '\_'), 'Interpreter', 'tex')  % 파일명을 제목에
+    xlabel('Time[s]')
+    ylabel('Voltage[V]')
+
+    box on; grid on;
+    set(gcf,'Position',[300 300 1200 800])
+
+    % ----- 저장 -----
+    [~, base, ~] = fileparts(files(k).name);
+    fig_name = fullfile(fig_folder, base + ".fig");
+    savefig(fig, fig_name);
+    close(fig);
+
+    fprintf("%d/%d 저장 완료: %s\n", k, N, fig_name);
+end
+
+fprintf('전체 완료!\n');
+
+
+
+
+
+
+
