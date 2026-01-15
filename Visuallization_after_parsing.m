@@ -1,8 +1,8 @@
 clc; clear; close all;
 
 % 경로 설정
-data_folder = 'G:\공유 드라이브\BSL_Data4\HNE_agedcell_8_processed\parsed_data';
-fig_folder  = 'G:\공유 드라이브\BSL_Data4\HNE_agedcell_8_processed\parsed_data\Fig';
+data_folder = 'G:\공유 드라이브\BSL_Data4\HNE_RPT_@50,70_251214_9\Driving\parsed_data\10degC';
+fig_folder  = 'G:\공유 드라이브\BSL_Data4\HNE_RPT_@50,70_251214_9\Driving\parsed_data\10degC\Fig';
 
 if ~exist(fig_folder, 'dir'), mkdir(fig_folder); end
 

@@ -35,7 +35,7 @@ find_cols = @(T) deal( ...
 contains_ci = @(s,kw) contains(lower(s), lower(kw));
 
 templates = struct('name',{},'t',{},'i',{});
-for k = 1:numel(tmpl_keys)
+for k = 1 %1:numel(tmpl_keys)
     key = tmpl_keys{k};
     match = [];
     for j = 1:numel(xlsx_list)

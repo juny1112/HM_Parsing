@@ -21,8 +21,10 @@ clc; clear; close all;
 % save_path  = 'G:\공유 드라이브\BSL_Data4\HNE_Integrated_6_processed\Test4(order3)\SIM_parsed\1초 저항';
 % folder_SIM = 'G:\공유 드라이브\BSL_Data4\HNE_SOC_moving_cutoff_5_processed\SIM_parsed\이름 정렬';
 % save_path  = 'G:\공유 드라이브\BSL_Data4\HNE_SOC_moving_cutoff_5_processed\SIM_parsed\1초 저항(수정)';
-folder_SIM = 'G:\공유 드라이브\BSL_Data4\HNE_agedcell_8_processed\SIM_parsed\셀정렬';
-save_path  = 'G:\공유 드라이브\BSL_Data4\HNE_agedcell_8_processed\SIM_parsed\1초저항';
+% folder_SIM = 'G:\공유 드라이브\BSL_Data4\HNE_agedcell_8_processed\SIM_parsed\셀정렬';
+% save_path  = 'G:\공유 드라이브\BSL_Data4\HNE_agedcell_8_processed\SIM_parsed\1초저항';
+folder_SIM = 'G:\공유 드라이브\BSL_Data4\HNE_RPT_@50,70_251214_9\Driving\SIM_parsed\0degC\이름정렬';
+save_path  = 'G:\공유 드라이브\BSL_Data4\HNE_RPT_@50,70_251214_9\Driving\SIM_parsed\0degC\1초저항';
 
 % ── 산점도 plot on/off --------------------------------------------------
 do_plot = false;   % ← 산점도 안 그리고 싶으면 false 로 바꾸기
@@ -35,7 +37,7 @@ files = dir(fullfile(folder_SIM,'*_SIM.mat'));
 assert(~isempty(files), 'SIM 파일을 찾지 못했습니다.');
 
 % 대표 SOC/허용오차
-soc_targets = [90 70 50 30];
+soc_targets = [50 70];
 soc_tol     = 1;   % ±1 %
 
 % 전체 요약 누적 (R1은 mΩ 단위로 누적)
